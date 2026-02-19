@@ -7,7 +7,7 @@ describe('PaginationNav', () => {
     const wrapper = mount(PaginationNav, {
       props: { page: 1, totalPages: 5 },
     });
-    expect(wrapper.text()).toContain('Página 1 de 5');
+    expect(wrapper.text()).toContain('1 / 5');
   });
 
   it('disables previous button on first page', () => {

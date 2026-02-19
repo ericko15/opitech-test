@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-const props = defineProps<{ categories: string[]; modelValue?: string }>();
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>();
+const props = defineProps<{ categories: string[] }>();
+const modelValue = defineModel<string>({ default: '' });
+
+const currentValue = computed(() => modelValue.value ?? '');
 
 const isOpen = ref(false);
 
 const selectedLabel = computed(() => {
-  if (!props.modelValue) return 'Todas las categorías';
-  return props.modelValue;
+  if (!currentValue.value) return 'Todas las categorías';
+  return currentValue.value;
 });
 
-function selectCategory(cat: string) {
-  emit('update:modelValue', cat);
+function selectCategory(category: string) {
+  modelValue.value = category;
   isOpen.value = false;
 }
 
@@ -56,9 +58,9 @@ function closeDropdown() {
           type="button"
           class="w-full px-4 py-2.5 text-left transition-colors capitalize"
           :class="{
-            'bg-primary text-white': !props.modelValue,
-            'hover:bg-primary/90 text-white': !props.modelValue,
-            'text-gray-700 hover:bg-gray-100': props.modelValue,
+            'bg-primary text-white': !currentValue,
+            'hover:bg-primary/90 text-white': !currentValue,
+            'text-gray-700 hover:bg-gray-100': currentValue,
           }"
           @click="selectCategory('')"
           role="option"
@@ -71,9 +73,9 @@ function closeDropdown() {
           type="button"
           class="w-full px-4 py-2.5 text-left transition-colors capitalize"
           :class="{
-            'bg-primary text-white': props.modelValue === category,
-            'hover:bg-primary/90 text-white': props.modelValue === category,
-            'text-gray-700 hover:bg-gray-100': props.modelValue !== category,
+            'bg-primary text-white': currentValue === category,
+            'hover:bg-primary/90 text-white': currentValue === category,
+            'text-gray-700 hover:bg-gray-100': currentValue !== category,
           }"
           @click="selectCategory(category)"
           role="option"

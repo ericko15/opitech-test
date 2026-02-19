@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useProductsStore } from '../stores/products';
 import { useProducts } from '../composables/useProducts';
 import { useRoute, useRouter } from 'vue-router';
-import SearchInput from '../components/ui/SearchInput.vue';
-import CategorySelect from '../components/ui/CategorySelect.vue';
-import ProductCard from '../components/ui/ProductCard.vue';
+import ProductFilters from '../components/products/ProductFilters.vue';
+import ProductGrid from '../components/products/ProductGrid.vue';
 import PaginationNav from '../components/ui/PaginationNav.vue';
 import ErrorBanner from '../components/ui/ErrorBanner.vue';
 
@@ -15,42 +14,44 @@ const route = useRoute();
 const router = useRouter();
 
 const page = computed(() => Number(route.query.page ?? 1));
-const q = computed(() => String(route.query.q ?? ''));
-const category = computed(() => {
+const searchValue = computed(() => String(route.query.q ?? ''));
+const categoryValue = computed(() => {
   const cat = route.query.category;
   return typeof cat === 'string' ? cat : '';
 });
 
-const searchTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
-
 onMounted(async () => {
   await fetchCategories();
-  await fetchProducts({ page: page.value, q: q.value, category: category.value });
+  await fetchProducts({ page: page.value, q: searchValue.value, category: categoryValue.value });
 });
 
+function updateRoute(options: { page?: number; q?: string; category?: string } = {}) {
+  const query: Record<string, string> = { ...route.query } as Record<string, string>;
+  if (options.page) query.page = String(options.page);
+  if (options.q !== undefined) {
+    if (options.q.trim()) query.q = options.q;
+    else delete query.q;
+  }
+  if (options.category !== undefined) {
+    if (options.category) query.category = options.category;
+    else delete query.category;
+  }
+  router.replace({ query });
+}
+
 function onSearch(value: string) {
-  if (searchTimeout.value) clearTimeout(searchTimeout.value);
-  searchTimeout.value = setTimeout(() => {
-    const query = { ...route.query } as Record<string, string>;
-    if (value.trim()) {
-      query.q = value;
-    } else {
-      delete query.q;
-    }
-    query.page = '1';
-    router.replace({ query });
-    fetchProducts({ page: 1, q: value, category: category.value });
-  }, 400);
+  updateRoute({ q: value, page: 1 });
+  fetchProducts({ page: 1, q: value, category: categoryValue.value });
 }
 
 function onCategoryChange(value: string) {
-  router.replace({ query: { ...route.query, category: value || undefined, page: 1 } });
-  fetchProducts({ page: 1, q: q.value, category: value });
+  updateRoute({ category: value, page: 1 });
+  fetchProducts({ page: 1, q: searchValue.value, category: value });
 }
 
-function goPage(p: number) {
-  router.replace({ query: { ...route.query, page: p } });
-  fetchProducts({ page: p, q: q.value, category: category.value });
+function onPageChange(newPage: number) {
+  updateRoute({ page: newPage });
+  fetchProducts({ page: newPage, q: searchValue.value, category: categoryValue.value });
 }
 </script>
 
@@ -58,42 +59,20 @@ function goPage(p: number) {
   <section class="mx-auto max-w-6xl px-4 py-6 space-y-6">
     <header class="space-y-4">
       <h2 class="text-2xl font-bold text-gray-800">Catálogo de Productos</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
-        <SearchInput :model-value="q" @update:model-value="onSearch" />
-        <CategorySelect
-          :categories="store.categories"
-          :model-value="category"
-          @update:model-value="onCategoryChange"
-        />
-      </div>
+      <ProductFilters
+        :search-value="searchValue"
+        :category-value="categoryValue"
+        :categories="store.categories"
+        @search="onSearch"
+        @category-change="onCategoryChange"
+      />
     </header>
 
     <ErrorBanner :message="store.error" />
-    <div
-      v-if="store.loading"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-      aria-busy="true"
-    >
-      <div v-for="i in 6" :key="i" class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="h-48 w-full bg-gray-200"></div>
-        <div class="p-4 space-y-3">
-          <div class="h-5 w-3/4 bg-gray-200 rounded"></div>
-          <div class="h-4 w-full bg-gray-200 rounded"></div>
-          <div class="h-6 w-20 bg-gray-200 rounded mt-4"></div>
-        </div>
-      </div>
-    </div>
-    <div v-else-if="!store.products.length" class="text-center py-12 text-gray-500">
-      No se encontraron productos
-    </div>
-    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <ProductCard v-for="p in store.products" :key="p.id" :product="p" />
-    </div>
+    <ProductGrid :products="store.products" :loading="store.loading" />
 
     <footer v-if="store.totalPages > 1">
-      <PaginationNav :page="store.page" :total-pages="store.totalPages" @change="goPage" />
+      <PaginationNav :page="store.page" :total-pages="store.totalPages" @change="onPageChange" />
     </footer>
   </section>
 </template>
-
-<style scoped></style>

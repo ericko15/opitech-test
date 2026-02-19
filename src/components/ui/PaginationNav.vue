@@ -6,6 +6,14 @@ const emit = defineEmits<{ change: [page: number] }>();
 <template>
   <div class="flex items-center justify-center gap-2">
     <button
+      v-if="props.totalPages > 2"
+      class="px-3 py-2 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors text-sm font-medium"
+      :disabled="props.page <= 1"
+      @click="emit('change', 1)"
+    >
+      « Primera
+    </button>
+    <button
       class="px-5 py-2 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors text-sm font-medium"
       :disabled="props.page <= 1"
       @click="emit('change', props.page - 1)"
@@ -21,6 +29,14 @@ const emit = defineEmits<{ change: [page: number] }>();
       @click="emit('change', props.page + 1)"
     >
       Siguiente
+    </button>
+    <button
+      v-if="props.totalPages > 2"
+      class="px-3 py-2 border border-gray-300 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors text-sm font-medium"
+      :disabled="props.page >= props.totalPages"
+      @click="emit('change', props.totalPages)"
+    >
+      Última »
     </button>
   </div>
 </template>

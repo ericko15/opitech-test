@@ -69,11 +69,18 @@ function goPage(p: number) {
     </header>
 
     <ErrorBanner :message="store.error" />
-    <div v-if="store.loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="n in 6" :key="n" class="bg-white rounded-xl shadow-sm p-4 animate-pulse">
-        <div class="h-48 w-full bg-gray-200 rounded-lg mb-4"></div>
-        <div class="h-5 w-3/4 bg-gray-200 mb-2"></div>
-        <div class="h-4 w-full bg-gray-200"></div>
+    <div
+      v-if="store.loading"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      aria-busy="true"
+    >
+      <div v-for="i in 6" :key="i" class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="h-48 w-full bg-gray-200"></div>
+        <div class="p-4 space-y-3">
+          <div class="h-5 w-3/4 bg-gray-200 rounded"></div>
+          <div class="h-4 w-full bg-gray-200 rounded"></div>
+          <div class="h-6 w-20 bg-gray-200 rounded mt-4"></div>
+        </div>
       </div>
     </div>
     <div v-else-if="!store.products.length" class="text-center py-12 text-gray-500">

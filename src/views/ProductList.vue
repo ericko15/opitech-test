@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
-import { useProductsStore } from '../stores/products';
-import { useProducts } from '../composables/useProducts';
+import { useProductsStore } from '@/stores/products';
+import { useProducts } from '@/composables/useProducts';
 import { useRoute, useRouter } from 'vue-router';
-import ProductFilters from '../components/products/ProductFilters.vue';
-import ProductGrid from '../components/products/ProductGrid.vue';
-import PaginationNav from '../components/ui/PaginationNav.vue';
-import ErrorBanner from '../components/ui/ErrorBanner.vue';
+import ProductFilters from '@/components/products/ProductFilters.vue';
+import ProductGrid from '@/components/products/ProductGrid.vue';
+import PaginationNav from '@/components/ui/PaginationNav.vue';
+import ErrorBanner from '@/components/ui/ErrorBanner.vue';
 
 const store = useProductsStore();
 const { fetchCategories, fetchProducts } = useProducts();

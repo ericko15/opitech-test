@@ -1,5 +1,5 @@
-import { productService } from '../services/productService';
-import { useProductsStore } from '../stores/products';
+import { productService } from '@/services/productService';
+import { useProductsStore } from '@/stores/products';
 
 export function useProducts() {
   const store = useProductsStore();

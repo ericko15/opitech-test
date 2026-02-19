@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import SearchInput from '../ui/SearchInput.vue';
-import CategorySelect from '../ui/CategorySelect.vue';
+import SearchInput from '@/components/ui/SearchInput.vue';
+import CategorySelect from '@/components/ui/CategorySelect.vue';
 
 const props = defineProps<{
   searchValue: string;

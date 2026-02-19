@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Product } from '../../types/product';
+import type { Product } from '@/types/product';
 const props = defineProps<{ product: Product }>();
 </script>
 

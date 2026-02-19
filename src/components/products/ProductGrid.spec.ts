@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ProductGrid from './ProductGrid.vue';
-import type { Product } from '../../types/product';
+import type { Product } from '@/types/product';
 
 describe('ProductGrid', () => {
   const mockProducts: Product[] = [

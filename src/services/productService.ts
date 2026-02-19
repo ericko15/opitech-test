@@ -1,5 +1,5 @@
-import type { Product, ProductsResponse } from '../types/product';
-import { env } from '../config/env';
+import type { Product, ProductsResponse } from '@/types/product';
+import { env } from '@/config/env';
 
 const BASE_URL = env.apiBaseUrl;
 const PAGE_SIZE = 12;

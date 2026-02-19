@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useProductsStore } from '../stores/products';
-import { useProducts } from '../composables/useProducts';
-import ErrorBanner from '../components/ui/ErrorBanner.vue';
+import { useProductsStore } from '@/stores/products';
+import { useProducts } from '@/composables/useProducts';
+import ErrorBanner from '@/components/ui/ErrorBanner.vue';
 
 const route = useRoute();
 const store = useProductsStore();

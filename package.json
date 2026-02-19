@@ -10,7 +10,10 @@
     "lint": "eslint . --ext .ts,.tsx,.vue",
     "lint:fix": "eslint . --ext .ts,.tsx,.vue --fix",
     "format": "prettier --write .",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json"
+    "typecheck": "vue-tsc --noEmit -p tsconfig.app.json",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "pinia": "^3.0.4",
@@ -23,18 +26,22 @@
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@typescript-eslint/parser": "^8.56.0",
     "@vitejs/plugin-vue": "^6.0.2",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
     "autoprefixer": "^10.4.24",
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-vue": "^10.8.0",
+    "happy-dom": "^20.6.3",
     "postcss": "^8.5.6",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.2.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
+    "vitest": "^4.0.18",
     "vue-eslint-parser": "^10.4.0",
     "vue-tsc": "^3.1.5"
   }

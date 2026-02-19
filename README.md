@@ -30,6 +30,56 @@ pnpm build
 pnpm typecheck
 ```
 
+## 🧪 Tests
+
+Los tests usan **Vitest** con **@vue/test-utils** para testing de componentes.
+
+```bash
+# Ejecutar tests en watch mode
+pnpm test
+
+# Ejecutar tests una vez
+pnpm test:run
+
+# Ejecutar tests con coverage
+pnpm test:coverage
+```
+
+### Cobertura
+
+- **Servicios**: productService (API, caché)
+- **Stores**: products (estado y getters)
+- **Config**: env (variables de entorno)
+- **Directives**: clickOutside
+- **Componentes UI**: ErrorBanner, PaginationNav, SearchInput, CategorySelect, ProductCard
+- **Componentes**: ProductGrid, ProductFilters
+
+### Archivos de test
+
+Los archivos de test usan la nomenclatura `.spec.ts` y se encuentran junto a los archivos que:
+
+```
+src/
+├── components/
+│   ├── products/
+│   │   ├── ProductFilters.spec.ts
+│   │   └── ProductGrid.spec.ts
+│   └── ui/
+│       ├── CategorySelect.spec.ts
+│       ├── ErrorBanner.spec.ts
+│       ├── PaginationNav.spec.ts
+│       ├── ProductCard.spec.ts
+│       └── SearchInput.spec.ts
+├── config/
+│   └── env.spec.ts
+├── directives/
+│   └── clickOutside.spec.ts
+├── services/
+│   └── productService.spec.ts
+└── stores/
+    └── products.spec.ts
+```
+
 ## 🔧 Variables de Entorno
 
 | Variable            | Descripción        | Valor por defecto       |
@@ -87,6 +137,13 @@ src/
 - **`defineModel`**: v-model nativo en componentes
 - **Skeleton loading**: Mejora UX durante carga
 - **Debounce**: Evita múltiples peticiones durante búsqueda
+
+### Enfoque de testing
+
+- Tests unitarios con Vitest + @vue/test-utils
+- Mocking de dependencias externas (API, setTimeout)
+- Tests de componentes focuseados en comportamiento, no implementación
+- Coverage mínimo de 80% en código testeable
 
 ### Estilo
 

@@ -1,6 +1,10 @@
-# OpiTech Test - Catálogo de Productos
+# OpiTech - Catálogo de Productos
 
 Demo de catálogo de productos desarrollado como prueba técnica.
+
+## 🌐 Demo
+
+https://ericko15.github.io/opitech-test/#/
 
 ## 🚀 Tecnologías
 
@@ -154,3 +158,20 @@ src/
 ## 🔗 API
 
 Demo usando [DummyJSON](https://dummyjson.com/docs/products) como fuente de datos.
+
+## 🚀 Despliegue
+
+El proyecto usa **GitHub Actions** para CI/CD y desplegar automáticamente a **GitHub Pages**.
+
+### Workflow
+
+El workflow (`.github/workflows/deploy.yml`) corre en cada push a `main`:
+
+1. **Lint** - Verifica código con ESLint
+2. **Test** - Ejecuta tests con Vitest y coverage (mínimo 80%)
+3. **Build** - Compila la app para producción
+4. **Deploy** - Despliega a GitHub Pages (solo si los pasos anteriores pasan)
+
+## 🌐 Ver Proyecto
+
+https://ericko15.github.io/opitech-test/#/

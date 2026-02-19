@@ -7,7 +7,7 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['node_modules', 'dist', 'dist-ssr', '.vscode', '*.local'],
+    ignores: ['node_modules', 'dist', 'dist-ssr', '.vscode', '*.local', 'coverage'],
   },
   // Vue 3 recommended rules (flat config)
   ...vue.configs['flat/recommended'],

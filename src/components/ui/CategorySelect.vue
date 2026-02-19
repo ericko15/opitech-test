@@ -28,14 +28,14 @@ function closeDropdown() {
 </script>
 
 <template>
-  <div class="relative" v-click-outside="closeDropdown">
+  <div v-click-outside="closeDropdown" class="relative">
     <label class="sr-only">Filtrar por categoría</label>
     <button
       type="button"
-      class="w-full px-4 py-2.5 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary bg-white transition-colors cursor-pointer flex items-center justify-between min-w-[180px]"
-      @click="toggleDropdown"
       aria-haspopup="listbox"
       :aria-expanded="isOpen"
+      class="w-full px-4 py-2.5 border border-gray-300 rounded-full outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary bg-white transition-colors cursor-pointer flex items-center justify-between min-w-[180px]"
+      @click="toggleDropdown"
     >
       <span class="truncate">{{ selectedLabel }}</span>
       <svg
@@ -56,6 +56,7 @@ function closeDropdown() {
       <li>
         <button
           type="button"
+          role="option"
           class="w-full px-4 py-2.5 text-left transition-colors capitalize"
           :class="{
             'bg-primary text-white': !currentValue,
@@ -63,7 +64,6 @@ function closeDropdown() {
             'text-gray-700 hover:bg-gray-100': currentValue,
           }"
           @click="selectCategory('')"
-          role="option"
         >
           Todas las categorías
         </button>
@@ -71,6 +71,7 @@ function closeDropdown() {
       <li v-for="category in props.categories" :key="category">
         <button
           type="button"
+          role="option"
           class="w-full px-4 py-2.5 text-left transition-colors capitalize"
           :class="{
             'bg-primary text-white': currentValue === category,
@@ -78,7 +79,6 @@ function closeDropdown() {
             'text-gray-700 hover:bg-gray-100': currentValue !== category,
           }"
           @click="selectCategory(category)"
-          role="option"
         >
           {{ category }}
         </button>

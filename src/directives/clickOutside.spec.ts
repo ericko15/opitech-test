@@ -1,13 +1,18 @@
 import { describe, it, expect, vi } from 'vitest';
 import { clickOutside } from './clickOutside';
 
+const clickOutsideDirective = clickOutside as unknown as {
+  mounted: (el: HTMLElement, binding: { value: (...args: unknown[]) => void }) => void;
+  unmounted: (el: HTMLElement) => void;
+};
+
 describe('clickOutside directive', () => {
   it('should define mounted hook', () => {
-    expect((clickOutside as any).mounted).toBeDefined();
+    expect(clickOutsideDirective.mounted).toBeDefined();
   });
 
   it('should define unmounted hook', () => {
-    expect((clickOutside as any).unmounted).toBeDefined();
+    expect(clickOutsideDirective.unmounted).toBeDefined();
   });
 
   it('should call binding value when clicking outside', () => {
@@ -16,7 +21,7 @@ describe('clickOutside directive', () => {
     const el = document.createElement('div');
     el.contains = vi.fn().mockReturnValue(false);
 
-    (clickOutside as any).mounted(el, { value: mockBinding });
+    clickOutsideDirective.mounted(el, { value: mockBinding });
 
     document.dispatchEvent(new Event('click'));
 
@@ -29,7 +34,7 @@ describe('clickOutside directive', () => {
     const el = document.createElement('div');
     el.contains = vi.fn().mockReturnValue(true);
 
-    (clickOutside as any).mounted(el, { value: mockBinding });
+    clickOutsideDirective.mounted(el, { value: mockBinding });
 
     document.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
@@ -42,8 +47,8 @@ describe('clickOutside directive', () => {
     const el = document.createElement('div');
     el.contains = vi.fn().mockReturnValue(false);
 
-    (clickOutside as any).mounted(el, { value: vi.fn() });
-    (clickOutside as any).unmounted(el);
+    clickOutsideDirective.mounted(el, { value: vi.fn() });
+    clickOutsideDirective.unmounted(el);
 
     expect(removeEventListenerSpy).toHaveBeenCalledWith('click', expect.any(Function));
   });
